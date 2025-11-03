@@ -116,21 +116,7 @@ Movie-Recommender-System-Project-Using-ML/
 
 ---
 
-## 🚀 Future Enhancements
 
-- [ ] Add collaborative filtering for personalized recommendations
-- [ ] Implement user ratings and watchlist functionality
-- [ ] Include trailer links and streaming availability
-- [ ] Add advanced filters (year, genre, rating)
-- [ ] Create a recommendation explanation feature
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
 
 ## ❤️ Developed By
 
