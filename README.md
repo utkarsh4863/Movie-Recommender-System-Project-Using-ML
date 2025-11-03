@@ -41,7 +41,7 @@ cd Movie-Recommender-System-Project-Using-ML
 
 ---
 
-### 2️⃣ Create a virtual environment
+## 2️⃣ Create a virtual environment
 ```bash
 python -m venv venv
 venv\Scripts\activate    # For Windows
