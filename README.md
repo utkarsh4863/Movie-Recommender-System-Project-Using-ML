@@ -85,10 +85,8 @@ The project uses the **TMDB 5000 Movies Dataset** from Kaggle:
 
 ## 🖥️ Screenshots
 
-| Home Page | Recommendations |
-|-----------|-----------------|
-| *Add screenshot* | *Add screenshot* |
 
+![Home Page](https://raw.githubusercontent.com/utkarsh4863/Movie-Recommender-System-Project-Using-ML/main/Screenshot%202025-11-03%20232229.png)
 ---
 
 ## 📁 Project Structure
