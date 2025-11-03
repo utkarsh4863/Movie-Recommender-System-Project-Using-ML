@@ -39,19 +39,26 @@ This project uses **cosine similarity** on text features such as genres, cast, c
 git clone https://github.com/utkarsh4863/Movie-Recommender-System-Project-Using-ML.git
 cd Movie-Recommender-System-Project-Using-ML
 
+---
 
 ### 2️⃣ Create a virtual environment
 ```bash
 python -m venv venv
 venv\Scripts\activate    # For Windows
 
+---
+
 3️⃣ Install dependencies
 ```bash
 pip install -r requirements.txt
 
+---
+
 4️⃣ Run the Streamlit app
 ```bash
 streamlit run app.py
+
+---
 
 ## 🔑 API Setup
 
@@ -63,14 +70,19 @@ Replace your key in the code:
 
 api_key = "your_api_key_here"
 
+---
+
 ## 📊 Dataset Used
 
 The project is based on the TMDB 5000 Movies Dataset from Kaggle:
 🔗 https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata
 
+---
+
 ## 🖥️ Screenshots
 Home Page	Recommendations
 
+---
 	
 ## 📁 Project Structure
 ├── app.py
@@ -81,6 +93,8 @@ Home Page	Recommendations
 └── Movies/
     ├── tmdb_5000_movies.csv
     └── tmdb_5000_credits.csv
+
+---
 
 ## ❤️ Developed By
 
