@@ -2,20 +2,39 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import gdown
+import io
+import os
 
-# -------------------------------
-# Load Data
-# -------------------------------
-movies_dict = pickle.load(open('movies.pkl', 'rb'))
+# ============================================================
+# ✅ Function to Load Pickle Files from Google Drive
+# ============================================================
+def load_pickle_from_drive(file_id, local_filename):
+    """Downloads a pickle file from Google Drive and loads it."""
+    if not os.path.exists(local_filename):
+        download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
+        gdown.download(download_url, local_filename, quiet=False)
+    with open(local_filename, "rb") as f:
+        return pickle.load(f)
+
+# ============================================================
+# 🎬 Google Drive File IDs (replace if needed)
+# ============================================================
+movies_file_id = "1976olyJTylhEbS-Ua_3c6RpGdDZ94nJT"       # movies.pkl
+similarity_file_id = "1TGlF7hNSwigCXSnCM4uT4rp21vJQdr10"   # similarity.pkl
+
+# ============================================================
+# 📦 Load Data
+# ============================================================
+movies_dict = load_pickle_from_drive(movies_file_id, "movies.pkl")
 movies = pd.DataFrame(movies_dict)
+similarity = load_pickle_from_drive(similarity_file_id, "similarity.pkl")
 
-similarity = pickle.load(open('similarity.pkl', 'rb'))
-
-# -------------------------------
-# Fetch Movie Info (Poster + Rating + Plot) via OMDb API
-# -------------------------------
+# ============================================================
+# 🎥 Fetch Movie Info (Poster + Rating + Plot) via OMDb API
+# ============================================================
 def fetch_movie_data(movie_title):
-    api_key = "c88079fe"  # ✅ Your OMDb API key
+    api_key = "c88079fe"  # ⚠️ Replace with your OMDb API key
     url = f"http://www.omdbapi.com/?t={movie_title}&apikey={api_key}"
 
     try:
@@ -34,9 +53,9 @@ def fetch_movie_data(movie_title):
         print("Error fetching movie data:", e)
         return {"poster": "https://via.placeholder.com/500x750?text=Error", "rating": "N/A", "plot": "Could not fetch plot."}
 
-# -------------------------------
-# Recommend Function
-# -------------------------------
+# ============================================================
+# 🎯 Recommend Function
+# ============================================================
 def recommend(movie):
     movie_index = movies[movies['title'] == movie].index[0]
     distances = similarity[movie_index]
@@ -52,36 +71,28 @@ def recommend(movie):
 
     return recommended_movies, movie_data_list
 
-# -------------------------------
-# Streamlit UI Design
-# -------------------------------
+# ============================================================
+# 🎨 Streamlit UI
+# ============================================================
 st.set_page_config(page_title="🎬 Movie Recommender", layout="wide")
 
-# ✅ Dark Theme but readable
 st.markdown("""
     <style>
     .stApp {
         background-color: #0e1117;
         color: #FFFFFF;
     }
-    /* Headings and labels */
     h1, h2, h3, h4, h5, h6, label {
         color: #FFFFFF !important;
     }
-
-    /* Dropdown box */
     div[data-baseweb="select"] > div {
         background-color: #1a1c23 !important;
         color: white !important;
         border: 1px solid #F63366 !important;
     }
-
-    /* Dropdown text */
     div[data-baseweb="select"] span {
         color: white !important;
     }
-
-    /* Recommend Button */
     div.stButton > button:first-child {
         background-color: #F63366;
         color: white;
@@ -94,20 +105,15 @@ st.markdown("""
     }
     div.stButton > button:first-child:hover {
         background-color: #ff4b77;
-        color: white;
         transform: scale(1.05);
         cursor: pointer;
     }
-
-    /* Movie Titles */
     .movie-title {
         text-align: center;
         color: #F63366;
         font-weight: 600;
         margin-top: 8px;
     }
-
-    /* Plot + Rating */
     .movie-info {
         text-align: center;
         color: #cccccc;
@@ -116,9 +122,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# -------------------------------
-# Page Title
-# -------------------------------
+# ============================================================
+# 🏠 App Layout
+# ============================================================
 st.markdown("<h1 style='text-align: center; color: #F63366;'>🎥 Movie Recommendation System</h1>", unsafe_allow_html=True)
 st.write("### Get personalized movie recommendations based on your favorite movie!")
 
@@ -130,7 +136,6 @@ selected_movie_name = st.selectbox(
 if st.button('Recommend 🎬'):
     with st.spinner('Fetching similar movies...'):
         names, data_list = recommend(selected_movie_name)
-
         cols = st.columns(5)
         for i, col in enumerate(cols):
             with col:
@@ -141,4 +146,3 @@ if st.button('Recommend 🎬'):
 
 st.markdown("<hr>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: gray;'>Developed with ❤️ using Streamlit & OMDb API</p>", unsafe_allow_html=True)
-
