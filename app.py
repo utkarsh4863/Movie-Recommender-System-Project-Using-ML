@@ -27,8 +27,8 @@ movies_dict = load_pickle_from_drive(MOVIES_FILE_ID, "movies.pkl")
 movies = pd.DataFrame(movies_dict)
 similarity = load_pickle_from_drive(SIMILARITY_FILE_ID, "similarity.pkl")
 
-# ✅ Convert similarity to NumPy array always (fix KeyError)
-similarity = np.array(similarity)
+# ✅ Convert similarity safely to numeric NumPy array
+similarity = np.array(similarity, dtype=float)
 
 # -------------------------------
 # 🎥 Fetch Movie Info (Poster + Rating + Plot)
@@ -65,7 +65,10 @@ def recommend(movie):
         return [], []
 
     movie_index = movies[movies['title'] == movie].index[0]
-    distances = similarity[movie_index]  # ✅ Works even if similarity is array
+    distances = similarity[movie_index]
+
+    # ✅ Convert all distances to float safely
+    distances = np.array(distances, dtype=float)
 
     movie_list = sorted(
         list(enumerate(distances)), reverse=True, key=lambda x: x[1]
